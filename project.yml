@@ -1,0 +1,34 @@
+title: "Textcat"
+description: >
+  Textcat with custom tokenizer
+
+directories:
+  ["training"]
+
+workflows:
+  all:
+    - convert
+    - train
+
+commands:
+  - name: convert
+    help: "Convert to spacy binary format"
+    script:
+      - "python convert.py"
+    deps:
+      - "config.cfg"
+      - "convert.py"
+    outputs:
+      - "train.spacy"
+      - "dev.spacy"
+
+  - name: train
+    help: "Train the textcat model"
+    script:
+      - "python -m spacy train config.cfg --output training/ --paths.train train.spacy --paths.dev dev.spacy --code ./functions.py"
+    deps:
+      - "config.cfg"
+      - "train.spacy"
+      - "dev.spacy"
+    outputs:
+      - "training/model-best"

@@ -1,0 +1,33 @@
+convert:
+  cmd: python -m spacy run convert
+  script:
+    - python convert.py
+  deps:
+    - path: config.cfg
+      md5: e8b1d8728f7ecb670f567de6b1530235
+    - path: convert.py
+      md5: b98989c4f98a8a67b7c1121cba165560
+  outs:
+    - path: train.spacy
+      md5: d76ae11d8b47938514d1fa1fba4f0c71
+    - path: dev.spacy
+      md5: a758e5c49c3cbb26c354c6fb9af660b5
+  spacy_version: 3.3.0
+  spacy_git_version: 497a708c7
+train:
+  cmd: python -m spacy run train
+  script:
+    - python -m spacy train config.cfg --output training/ --paths.train train.spacy
+      --paths.dev dev.spacy --code ./functions.py
+  deps:
+    - path: config.cfg
+      md5: e8b1d8728f7ecb670f567de6b1530235
+    - path: train.spacy
+      md5: d76ae11d8b47938514d1fa1fba4f0c71
+    - path: dev.spacy
+      md5: a758e5c49c3cbb26c354c6fb9af660b5
+  outs:
+    - path: training/model-best
+      md5: 1094d34e238e53bd1ae8fde9e4945989
+  spacy_version: 3.3.0
+  spacy_git_version: 497a708c7

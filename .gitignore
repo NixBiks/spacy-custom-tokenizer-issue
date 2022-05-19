@@ -1,0 +1,4 @@
+.venv
+*.spacy
+training
+__pycache__
